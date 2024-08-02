@@ -11,6 +11,8 @@ if __name__ == "__main__":
 	bot.login()
 	bot.search_jobs({ "title": data["keywords"], "location": data["location"]})
 	bot.easy_apply_filter()
+	bot.other_filters()
+	bot.apply_all_filters()
 
 	while(True):
 		try:

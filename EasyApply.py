@@ -73,17 +73,28 @@ class EasyApply:
 		all_filters = self.driver.find_element(By.XPATH, "//button[text()='All filters']")
 		all_filters.click()
 
-		time.sleep(2)
+		time.sleep(2) # TODO: To be replaced with WebDriverWait
 
 		easy_apply_button = self.driver.find_element(By.XPATH, "//h3[text()='Easy Apply']/following-sibling::div//input[@type='checkbox']")
-		time.sleep(1)
+		time.sleep(1) # TODO: To be replaced with WebDriverWait
 		
 		# Scroll into view if needed and click to toggle the switch
 		actions = ActionChains(self.driver)
 		actions.move_to_element(easy_apply_button).click().perform()
 
-		# apply filter
+		time.sleep(3) # TODO: To be replaced with WebDriverWait
+
+	def other_filters(self):
+		actions = ActionChains(self.driver)
+		
+		for filter in self.filters:
+			if filter == "Remote":
+				remote_filter = self.driver.find_element(By.ID, "advanced-filter-workplaceType-2")
+				actions.move_to_element(remote_filter).click().perform()
+			
+			time.sleep(2) # TODO: To be replaced with WebDriverWait
+
+	# apply filters
+	def apply_all_filters(self):
 		show_results_button = self.driver.find_element(By.XPATH, "//button[@data-test-reusables-filters-modal-show-results-button='true']")
 		show_results_button.click()
-
-		time.sleep(3)
