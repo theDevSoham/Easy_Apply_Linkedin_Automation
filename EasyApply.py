@@ -88,9 +88,20 @@ class EasyApply:
 		actions = ActionChains(self.driver)
 		
 		for filter in self.filters:
+
+			# Remote filters
+			if filter == "On-site":
+				remote_filter = self.driver.find_element(By.ID, "advanced-filter-workplaceType-1")
+				actions.move_to_element(remote_filter).click().perform()
+
 			if filter == "Remote":
 				remote_filter = self.driver.find_element(By.ID, "advanced-filter-workplaceType-2")
 				actions.move_to_element(remote_filter).click().perform()
+
+
+			if filter == "Hybrid":
+				hybrid_filter = self.driver.find_element(By.ID, "advanced-filter-workplaceType-3")
+				actions.move_to_element(hybrid_filter)
 			
 			time.sleep(2) # TODO: To be replaced with WebDriverWait
 
@@ -98,3 +109,15 @@ class EasyApply:
 	def apply_all_filters(self):
 		show_results_button = self.driver.find_element(By.XPATH, "//button[@data-test-reusables-filters-modal-show-results-button='true']")
 		show_results_button.click()
+
+	def find_offers(self):
+		total_number_of_offers = self.driver.find_element(By.CSS_SELECTOR, "div.jobs-search-results-list__subtitle").text.split(" ")[0].replace(",", "")
+		print(f"total number of offers found: {int(total_number_of_offers)}")
+
+		results_list = self.driver.find_elements(By.XPATH, "//li[contains(@class, 'jobs-search-results__list-item')]")
+		print(f"All jobs list in current page: {results_list}")
+
+		for result in results_list:
+			hover = ActionChains(self.driver).move_to_element(result)
+			hover.click().perform()
+			time.sleep(2)

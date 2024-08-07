@@ -10,9 +10,12 @@ if __name__ == "__main__":
 	bot = EasyApply(data)
 	bot.login()
 	bot.search_jobs({ "title": data["keywords"], "location": data["location"]})
+	time.sleep(1)
 	bot.easy_apply_filter()
 	bot.other_filters()
 	bot.apply_all_filters()
+	time.sleep(2)
+	bot.find_offers()
 
 	while(True):
 		try:
